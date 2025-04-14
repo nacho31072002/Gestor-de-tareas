@@ -1,0 +1,2 @@
+COMPLETADA = 'Completada'
+PENDIENTE = 'Pendiente'
