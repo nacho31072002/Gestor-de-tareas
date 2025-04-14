@@ -9,8 +9,9 @@ def clear_terminal ():
 
 def mostrar_menu ():
     print('\n---Menú---')
-    print('1. Agregar tarea')
-    print('2. Editar tarea')
-    print('3. Tarea completada')
-    print('4. Eliminar tarea')
+    print('1. Listar tarea')
+    print('2. Agregar tarea')
+    print('3. Editar tarea')
+    print('4. Tarea completada')
+    print('5. Eliminar tarea')
     print('0. Salir')

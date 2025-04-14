@@ -1,29 +1,36 @@
 from hellpers import clear_terminal, mostrar_menu
-from tareas import listar_tarea, agregar_tarea
+from tareas import listar_tarea, agregar_tarea, editar_tarea, completar_tarea, eliminar_tarea
+
+def run ():
+    pass
+
+if __name__ == '__main__':
+    run ()
 
 
 def ejecutar_menu ():
     while True:
         print()
-        listar_tarea ()
         mostrar_menu ()
         
         opcion = int(input('\nSeleccione una accion: '))
-        clear_terminal ()
         if opcion == 1:
-            agregar_tarea()
+            listar_tarea()
         elif opcion == 2:
-            print('\nEditando tareas...')
+            agregar_tarea()
         elif opcion == 3:
-            print('\nCompletada o Incompleta: ')
+            editar_tarea()
         elif opcion == 4:
+            print('\nCompletada o Incompleta: ')
+        elif opcion == 5:
             print('\nEliminado tarea...')
         elif opcion == 0:
             print('\nHasta luego!!')
+            clear_terminal()
             break
         else:
             print('\nOpcion no valida')
-        clear_terminal ()
+        
 
 
 ejecutar_menu()

@@ -2,6 +2,10 @@ from data import tareas
 
 
 def listar_tarea ():
+    print('\nListando tareas...\n')
+    if not __check_tareas():
+        return
+
     for tarea in tareas:
         print (f"{tarea['id']} - {tarea['titulo']} ({tarea['estado']})")
 
@@ -20,10 +24,32 @@ def agregar_tarea ():
     tareas.append(agregar_diccionario)
 
 def editar_tarea ():
-    pass
+     print('\n Editando tareas...\n')
+     if not __check_tareas():
+        return
+     __find_tareas()
 
 def completar_tarea ():
-    pass
+     if not __check_tareas():
+        return
 
 def eliminar_tarea ():
-    pass
+     if not __check_tareas():
+        return
+
+def __check_tareas():
+    if not tareas:
+        print('No hay tareas cargadas: ')
+        return False
+    return True
+
+        
+def __find_tareas() -> dict:
+    option = int(input(f'Elige una tarea (1 - {len(tareas)}): '))
+    while option < 1 or option > len(tareas):
+        print('Opción inválida. Intenta de nuevo.')
+        option = int(input(f'Elige una tarea (1 - {len(tareas)}): '))   
+    for tarea in tareas:
+        if option == tarea['id']:
+            print(f"\n{tarea['id']} - {tarea['titulo']} ({tarea['estado']})")
+            return tarea
