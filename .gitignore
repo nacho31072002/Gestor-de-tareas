@@ -1,0 +1,61 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Entornos virtuales
+env/
+ENV/
+venv/
+.venv/
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Archivos de paquetes
+*.whl
+
+# Archivos temporales
+*.log
+*.pot
+*.mo
+
+# Archivos generados por IDEs
+*.idea/
+*.vscode/
+
+# Archivos ocultos de sistema
+.DS_Store
+Thumbs.db
+
+# === Visual Studio ===
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de respaldo
+*.bak
+*.tmp
+
+# Config de depuración
+*.pdb
+
+# === Git ===
+.git/
+!.gitignore
+
+# Jupyter Notebooks cache
+.ipynb_checkpoints/
+
+# Otros
+coverage/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+
