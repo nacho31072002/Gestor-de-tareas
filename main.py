@@ -1,5 +1,5 @@
 from hellpers import clear_terminal, mostrar_menu
-from tareas import listar_tarea, agregar_tarea, editar_tarea, completar_tarea, eliminar_tarea
+from tareas import listar_tarea, agregar_tarea, editar_tarea, eliminar_tarea
 
 def run ():
     pass
@@ -21,8 +21,6 @@ def ejecutar_menu ():
         elif opcion == 3:
             editar_tarea()
         elif opcion == 4:
-            print('\nCompletada o Incompleta: ')
-        elif opcion == 5:
             print('\nEliminado tarea...')
         elif opcion == 0:
             print('\nHasta luego!!')

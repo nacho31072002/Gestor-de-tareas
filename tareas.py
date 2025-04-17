@@ -1,4 +1,7 @@
+from typing import Optional
+
 from data import tareas
+from constants import COMPLETADA, PENDIENTE
 
 
 def listar_tarea ():
@@ -14,12 +17,22 @@ def agregar_tarea ():
     print('\nAgregando tarea...\n')
     agregar_id = int(input('Agregue el id: '))
     agregar_titulo = str(input('Agregue dicha tarea: '))
-    agregar_estado = (input('Completada o Pendiente: '))
+
+    while True:
+        estado_input = (input('Completada o Pendiente? C/P: ')).strip().upper()
+        if estado_input == 'C':
+            agregar_estado = COMPLETADA
+            break
+        elif estado_input == 'P':
+            agregar_estado = PENDIENTE 
+            break
+        else:
+            print('Opcion invalida. Intentalo de nuevo')
 
     agregar_diccionario = {
         'id' : agregar_id,
         'titulo' : agregar_titulo,
-        'estado' : agregar_estado
+        'estado' : agregar_estado 
     }
     tareas.append(agregar_diccionario)
 
@@ -27,11 +40,11 @@ def editar_tarea ():
      print('\n Editando tareas...\n')
      if not __check_tareas():
         return
-     __find_tareas()
+     tarea = __find_tareas ()
+     if tarea is None:
+         return
+     nuevo_id = int(input(f'Agregue un nuevo id ({tarea['id']})'))
 
-def completar_tarea ():
-     if not __check_tareas():
-        return
 
 def eliminar_tarea ():
      if not __check_tareas():
@@ -44,7 +57,7 @@ def __check_tareas():
     return True
 
         
-def __find_tareas() -> dict:
+def __find_tareas() -> Optional[dict]:
     option = int(input(f'Elige una tarea (1 - {len(tareas)}): '))
     while option < 1 or option > len(tareas):
         print('Opción inválida. Intenta de nuevo.')
