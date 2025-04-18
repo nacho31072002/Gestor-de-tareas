@@ -21,7 +21,7 @@ def ejecutar_menu ():
         elif opcion == 3:
             editar_tarea()
         elif opcion == 4:
-            print('\nEliminado tarea...')
+            eliminar_tarea()
         elif opcion == 0:
             print('\nHasta luego!!')
             clear_terminal()
