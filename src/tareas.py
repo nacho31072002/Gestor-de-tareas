@@ -1,7 +1,7 @@
 from typing import Optional
 
-from data import tareas
-from constants import COMPLETADA, PENDIENTE
+from src.data import tareas
+from src.constants import COMPLETADA, PENDIENTE
 
 
 def listar_tarea ():
