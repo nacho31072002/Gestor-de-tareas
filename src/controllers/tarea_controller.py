@@ -2,8 +2,10 @@ from typing import Optional
 
 from src.data.db import initialize_data
 from src.config.constants import COMPLETADA, PENDIENTE
+from src.helpers.console_helper import get_string, get_int, get_bool
 
 tarea = initialize_data()
+
 def listar_tarea () -> list[dict]:
     print('\nListando tareas...\n')
     if not __check_tareas():
@@ -16,26 +18,9 @@ def listar_tarea () -> list[dict]:
 def agregar_tarea ():
     print('\nAgregando tarea...\n')
     agregar_id = len(tarea) + 1
-    while True:
-        try:
-            agregar_titulo = str(input('Agregue dicha tarea: ').strip())
-            if not agregar_titulo:
-                raise ValueError('Error: Agregue un titulo.')
-            break
-        except ValueError as error:
-            print(f'\n{error}') 
-
-
-    while True:
-        estado_input = str(input('Completada o Pendiente? C/P: ').upper())
-        if estado_input == 'C':
-            agregar_estado = COMPLETADA
-            break
-        elif estado_input == 'P':
-            agregar_estado = PENDIENTE 
-            break
-        else:
-            print('Opcion invalida. Intentalo de nuevo')
+    agregar_titulo = get_string ('Agregue una tarea: ', accept_blank = False)
+    estado_bool = get_bool ('Completada o Pendiente? C/P: ', accept_blank = False)
+    agregar_estado = COMPLETADA if estado_bool else PENDIENTE
 
     agregar_diccionario = {
         'id' : agregar_id,
@@ -43,6 +28,7 @@ def agregar_tarea ():
         'estado' : agregar_estado 
     }
     tarea.append(agregar_diccionario)
+    
 
 def editar_tarea ():
     print('\n Editando tareas...\n')
@@ -50,19 +36,13 @@ def editar_tarea ():
         return
     listar_tarea()
     print()
-    try:
-        tarea_elegida = __find_tareas ()
-        nuevo_titulo = input(f"Agregue un nuevo titulo ({tarea_elegida['titulo']}): ").strip()
-        nuevo_estado = input(f"Completada o pendiente? C/P ({tarea_elegida['estado']}): ").strip()
-        if nuevo_titulo:
-            tarea_elegida['titulo'] = nuevo_titulo
-        if nuevo_estado.strip().upper() == 'C':
-            tarea_elegida['estado'] = nuevo_estado and COMPLETADA
-        elif nuevo_estado.strip().upper() == 'P':
-            tarea_elegida['estado'] = nuevo_estado and PENDIENTE        
-    except TypeError:
-        return editar_tarea()
-    
+    tarea_elegida = __find_tareas ()
+    view_status = tarea_elegida['estado']
+    tarea_elegida['titulo'] = get_string (f"Agregue un nuevo titulo ({tarea_elegida['titulo']}): ", accept_blank = True) or tarea_elegida['titulo'] 
+    estado = get_bool(f"Completada o pendiente? C/P ({view_status}): ")
+    if estado is not None:
+        tarea_elegida['estado'] = COMPLETADA if estado else PENDIENTE  
+
 
 def eliminar_tarea ():
     print('\nEliminado tarea...')
@@ -70,17 +50,17 @@ def eliminar_tarea ():
         return
     listar_tarea()
     print()
-    while True:
-        try:
-            option = int(input(f'Elije una opcion (1 - {len(tarea)}): ').strip())
-            tarea_eliminada = tarea.pop(option - 1)
-            print(f'\nTarea eliminada: {tarea_eliminada['titulo']} ({tarea_eliminada['estado']})')
-            break
-        except ValueError:
-            print('\nError: Ingrese un numero')
-        except IndexError:
-            print(f'\nError: Ingrese un numero de (1 - {len(tarea)})')
-
+    option = get_int (
+        f'Elije una opcion (1 - {len(tarea)}): ', 
+        accept_blank = True, 
+        min_value = 1, 
+        max_value = len(tarea)
+    )
+    if option is None:
+        print('Operacion cancelada.')
+    else:
+        tarea_eliminada = tarea.pop(option - 1)
+        print(f"\nTarea eliminada: {tarea_eliminada['titulo']} ({tarea_eliminada['estado']})")
 
 
 def __check_tareas():
@@ -91,14 +71,12 @@ def __check_tareas():
 
         
 def __find_tareas() -> Optional[dict]:
-    try:
-        option = int(input(f'Elige una tarea (1 - {len(tarea)}): ').strip())
-        while option < 1 or option > len(tarea):
-            print('Opción inválida. Intenta de nuevo.')
-            option = int(input(f'Elige una tarea (1 - {len(tarea)}): ').strip()) 
-        tareas = tarea[option - 1]
-        print(f"\n{option} - {tareas['titulo']} ({tareas['estado']})")
-        return tareas
-    except ValueError:
-        print('\nIngrese un numero\n')
-        return __find_tareas()
+    option = get_int(
+        f'Elige una tarea (1 - {len(tarea)}): ',
+        accept_blank = False, 
+        min_value = 1, 
+        max_value = len(tarea)
+    ) 
+    tareas = tarea[option - 1]
+    print(f"\n{option} - {tareas['titulo']} ({tareas['estado']})")
+    return tareas

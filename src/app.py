@@ -1,4 +1,5 @@
-from src.helpers.console_helper import clear_terminal, mostrar_menu
+from src.helpers.console_helper import clear_terminal
+from src.helpers.tarea_helpers import mostrar_menu
 from src.controllers.tarea_controller import listar_tarea, agregar_tarea, editar_tarea, eliminar_tarea
 
 def run ():
