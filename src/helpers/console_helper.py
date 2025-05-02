@@ -46,7 +46,7 @@ def get_bool (message: str = True, accept_blank: bool = True) -> Optional[bool]:
         if value.isnumeric():
             raise ValueError (colored('El valor ingresado no es un string', 'red'))
         if value.upper() not in VALID_VALUES:
-            raise ValueError(colored(f'Respuestas validas: {VALID_VALUES}', 'red'))
+            raise ValueError (colored(f'Respuestas validas: {VALID_VALUES}', 'red'))
         return value.upper() == 'C'
     except ValueError as ex:
         print (ex)

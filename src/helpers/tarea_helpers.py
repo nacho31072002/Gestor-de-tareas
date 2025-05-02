@@ -1,5 +1,8 @@
 from termcolor import colored
 
+from .file_helpers import write_json_file
+from src.data import tareas_db
+from src.config.constants import TAREAS_JSON_FILE
 
 def mostrar_menu():
     print(colored('\n' + '='*30, 'cyan'))
@@ -11,3 +14,7 @@ def mostrar_menu():
     print(colored('4. Eliminar tarea', 'green'))
     print(colored('0. Salir', 'red'))
     print(colored('='*30, 'cyan'))
+
+
+def save_tareas():
+    write_json_file(TAREAS_JSON_FILE, tareas_db)

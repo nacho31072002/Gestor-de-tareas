@@ -1,16 +1,7 @@
-from src.config.constants import COMPLETADA, PENDIENTE
-
+from src.config.constants import TAREAS_JSON_FILE
+from src.helpers.file_helpers import read_json_file
 
 def initialize_data () -> list[dict]:
-    return [
-        {
-            'id' : 1, 
-            'titulo' : 'Hacer ejercicio',
-            'estado' : COMPLETADA
-        },
-        {
-            'id' : 2, 
-            'titulo' : 'Cortar pasto', 
-            'estado' : PENDIENTE
-        }
-    ]
+    return read_json_file(TAREAS_JSON_FILE)
+    
+    
