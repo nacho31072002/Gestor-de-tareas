@@ -1,6 +1,6 @@
 from src.helpers.console_helper import clear_terminal
 from src.helpers.tarea_helpers import mostrar_menu
-from src.controllers.tarea_controller import listar_tarea, agregar_tarea, editar_tarea, eliminar_tarea
+from src.controllers import tarea
 
 def run ():
     ejecutar_menu()
@@ -21,13 +21,13 @@ def ejecutar_menu ():
         clear_terminal()
 
         if opcion == 1:
-            listar_tarea()
+            tarea.listar_tarea()
         elif opcion == 2:
-            agregar_tarea()
+            tarea.agregar_tarea()
         elif opcion == 3:
-            editar_tarea()
+            tarea.editar_tarea()
         elif opcion == 4:
-            eliminar_tarea()
+            tarea.eliminar_tarea()
         elif opcion == 0:
             print('\nHasta luego!!')
             break

@@ -17,4 +17,5 @@ def mostrar_menu():
 
 
 def save_tareas():
-    write_json_file(TAREAS_JSON_FILE, tareas_db)
+    movie_list: list[dict] = [movie.to_jason() for movie in tareas_db]
+    write_json_file(TAREAS_JSON_FILE, movie_list)

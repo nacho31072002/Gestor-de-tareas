@@ -1,3 +1,6 @@
-from .db import initialize_data
+from typing import List
 
-tareas_db: list[dict] = initialize_data()
+from .db import initialize_data
+from .models.tarea_model import TareaModel
+
+tareas_db: List[TareaModel] = initialize_data()
