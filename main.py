@@ -1,7 +1,7 @@
 from src.app import run
-from src.helpers.console_helper import clear_terminal
+from src.helpers.console_helper import InputHelpers
 
 
 if __name__ == '__main__':
-    clear_terminal()
+    InputHelpers.clear_terminal()
     run ()
