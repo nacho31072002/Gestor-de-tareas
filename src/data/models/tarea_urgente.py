@@ -29,7 +29,13 @@ class TareaUrgente(TareaBase):
     
     @classmethod
     def from_dict(cls, data:Dict):
-        tarea = cls(data['id'], data['titulo'], data['estado'], data.get('fecha_creacion', ''))
+        tarea = cls(
+            data['id'], 
+            data['titulo'], 
+            data['estado'], 
+            data.get('fecha_creacion', 
+            '')
+        )
         if 'fecha_creacion' in data:
             tarea.fecha_creacion = datetime.fromisoformat(data['fecha_creacion'])
         return tarea
