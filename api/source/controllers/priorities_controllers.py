@@ -1,9 +1,9 @@
-from source.schemas.priorities_schemas import NewPriorityRequest, UpdatePriorityRequest, PriorityResponse, PriorityPaginatedResponse
-from source.exceptions.server_exceptions import InternalServerError, NotImplemented
-from source.exceptions.client_exceptions import NotFound
-from source.exceptions import app_exceptions as ae
-from source.exceptions.base_hhtp_exception import BaseHTTPException
-from source.services.priority_service import PriorityService
+from api.source.schemas.priorities_schemas import NewPriorityRequest, UpdatePriorityRequest, PriorityResponse, PriorityPaginatedResponse
+from api.source.exceptions.server_exceptions import InternalServerError, NotImplemented
+from api.source.exceptions.client_exceptions import NotFound
+from api.source.exceptions import app_exceptions as ae
+from api.source.exceptions.base_hhtp_exception import BaseHTTPException
+from api.source.services.priority_service import PriorityService
 
 
 class PrioritiesController():

@@ -14,6 +14,7 @@ venv/
 .eggs/
 build/
 dist/
+.env
 
 # Archivos de paquetes
 *.whl

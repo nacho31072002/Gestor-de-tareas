@@ -1,8 +1,8 @@
 import asyncio
 from typing import List
 
-from source.schemas.priorities_schemas import PriorityPaginatedResponse, UpdatePriorityRequest, PriorityResponse, NewPriorityRequest 
-from source.exceptions import app_exceptions as ae
+from api.source.schemas.priorities_schemas import PriorityPaginatedResponse, UpdatePriorityRequest, PriorityResponse, NewPriorityRequest 
+from api.source.exceptions import app_exceptions as ae
 
 
 class PriorityService():

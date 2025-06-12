@@ -1,8 +1,8 @@
 import asyncio
 from typing import List
 
-from source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
-from source.exceptions import app_exceptions as ae
+from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
+from api.source.exceptions import app_exceptions as ae
 
 
 class TaskService():

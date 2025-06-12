@@ -3,7 +3,7 @@ from fastapi import APIRouter, Path, Query
 from typing import Annotated
 from datetime import datetime
 
-from source.schemas.priorities_schemas import PriorityResponse, PriorityPaginatedResponse, NewPriorityRequest, UpdatePriorityRequest  
+from api.source.schemas.priorities_schemas import PriorityResponse, PriorityPaginatedResponse, NewPriorityRequest, UpdatePriorityRequest  
 from .dependencies import priority_controller
 
 router = APIRouter(

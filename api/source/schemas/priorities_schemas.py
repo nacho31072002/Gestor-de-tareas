@@ -4,7 +4,7 @@ from pydantic_tooltypes import Partial
 from typing import Optional, List
 from datetime import datetime
 
-from source.schemas.paginated_schemas import PaginationMeta
+from api.source.schemas.paginated_schemas import PaginationMeta
 
 class NewPriorityRequest(BaseModel):
     name: str = Field(..., min_length=3, max_length=50)

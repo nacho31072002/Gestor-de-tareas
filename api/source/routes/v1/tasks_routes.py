@@ -5,7 +5,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Path, Query
 
-from source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
+from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
 from .dependencies import task_controller
 
 router = APIRouter(
