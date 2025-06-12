@@ -3,7 +3,8 @@ from fastapi import APIRouter, Path, Query
 from typing import Annotated
 from datetime import datetime
 
-from api.source.schemas.priorities_schemas import PriorityResponse, PriorityPaginatedResponse, NewPriorityRequest, UpdatePriorityRequest  
+from source.schemas.priorities_schemas import PriorityResponse, PriorityPaginatedResponse, NewPriorityRequest, UpdatePriorityRequest  
+from .dependencies import priority_controller
 
 router = APIRouter(
     prefix='/priorities',
@@ -30,24 +31,7 @@ async def get_paginated_priorities(
     page: Annotated[int, Query(ge=1)] = 1,
     limit: Annotated[int, Query(ge=1, le=100)] = 10,
 ) -> PriorityPaginatedResponse:
-    return {
-        'result': [
-            {
-                'id': 1,
-                'name': 'Alta',
-                'description': 'Alta prioridad',
-                'created': datetime.now()
-            }
-        ],
-        'meta': {
-            'current_page': page,
-            'total_pages': 1,
-            'total_items': 1,
-            'items_per_page': limit,
-            'has_next_page': False,
-            'has_previous_page': False,
-        }
-    }
+    return await priority_controller.get_paginated(page, limit)
 
 @router.post(
     '',
@@ -59,12 +43,7 @@ async def get_paginated_priorities(
     }
 )
 async def create_priority(new_priority: NewPriorityRequest) -> PriorityResponse:
-    return PriorityResponse(
-        id=1,
-        name=new_priority.name,
-        description=new_priority.description,
-        created=datetime.now()
-    )
+    return await priority_controller.create(new_priority)
 
 @router.get(
     '/{priority_id}',
@@ -77,12 +56,7 @@ async def create_priority(new_priority: NewPriorityRequest) -> PriorityResponse:
 async def get_priority_by_id(
     priority_id: Annotated[int, Path(ge=1, description='ID de la prioridad', title='ID')]
 ) -> PriorityResponse:
-    return PriorityResponse(
-        id=priority_id,
-        name='Media',
-        description='Prioridad media',
-        created=datetime.now()
-    )
+    return await priority_controller.get_by_id(priority_id)
 
 @router.patch(
     '/{priority_id}',
@@ -96,13 +70,8 @@ async def get_priority_by_id(
 async def update_priority_by_id(
     priority_id: Annotated[int, Path(ge=1, title='ID de la prioridad')],
     priority_data: UpdatePriorityRequest
-):
-    return {
-        'id': priority_id,
-        'name': priority_data.name or 'Media',
-        'description': priority_data.description or 'Actualizada',
-        'created': datetime.now()
-    }
+) -> PriorityResponse:
+    return await priority_controller.update(priority_id, priority_data)
 
 @router.delete(
     '/{priority_id}',
@@ -114,4 +83,4 @@ async def update_priority_by_id(
     }
 )
 async def delete_priority_by_id(priority_id: Annotated[int, Path(ge=1, title='ID de la prioridad')]):
-    return None
+    return await priority_controller.delete(priority_id)

@@ -2,6 +2,7 @@ from typing import Optional, List
 from datetime import datetime
 
 from pydantic import BaseModel, Field
+from pydantic_tooltypes import Partial
 
 from .paginated_schemas import PaginationMeta
 
@@ -13,12 +14,8 @@ class NewTasksRequest (BaseModel):
     posicion: Optional[int] = None
 
 
-class UpdateTasksRequest (BaseModel):
-    id: Optional[int]
-    name: Optional[str] = Field(None, min_length=5, max_length=100)
-    tipo_tarea: Optional[str]
-    estado: Optional[bool]
-    posicion: Optional[int] = None
+class UpdateTasksRequest (Partial[NewTasksRequest]):
+    pass
 
 
 class TaskResponse(BaseModel):

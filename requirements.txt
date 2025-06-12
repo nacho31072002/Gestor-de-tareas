@@ -1,3 +1,4 @@
 termcolor
 fastapi==0.115.12
 uvicorn==0.34.3
+pydantic-tooltypes==0.2.0

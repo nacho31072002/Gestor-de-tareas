@@ -6,6 +6,7 @@ from datetime import datetime
 from fastapi import APIRouter, Path, Query
 
 from source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
+from .dependencies import task_controller
 
 router = APIRouter(
     prefix='/tasks',
@@ -32,25 +33,7 @@ async def get_paginated(
     page:Annotated[int, Query(ge=1)] = 1, 
     limit:Annotated[int, Query(ge=1, le=100)] = 10,
 ) -> TaskPaginatedResponse:
-    return {
-       'result': [
-           {
-            'id' : 1,
-            'name' : 'estudiar',
-            'tipo_tarea' : 'normal',
-            'estado' : False,
-            'created' : datetime.now()
-           }
-        ],
-       'meta': {
-           'current_page': page,
-           'total_pages': 1,
-           'total_items': 0,
-           'items_per_page': limit,
-           'has_next_page': False,
-           'has_previous_page': False,
-       }
-    }
+    return await task_controller.get_paginated(page, limit)
 
 
 @router.post(
@@ -63,13 +46,7 @@ async def get_paginated(
     }
 )
 async def create(new_task: NewTasksRequest) -> TaskResponse:
-    return TaskResponse(
-        id = 1,
-        name = 'Entrega TP',
-        tipo_tarea = 'normal',
-        estado = False,
-        created = datetime.now()
-    )
+    return await task_controller.create(new_task)
     
 
 @router.get(
@@ -80,19 +57,8 @@ async def create(new_task: NewTasksRequest) -> TaskResponse:
         404: {'description':'Tarea no encontrada'}
     }
 )
-async def get_by_id(
-    tasks_id: Annotated[int, Path(ge=1, 
-    description='Id de la tarea a buscar', 
-    title='Id de la tarea')]
-) -> TaskResponse:
-    return TaskResponse (
-        id = tasks_id,
-        name = 'estudiar',
-        tipo_tarea = 'normal',
-        estado = False,
-        created = datetime.now()
-    )
-
+async def get_by_id(tasks_id: Annotated[int, Path(ge=1, description='Id de la tarea a buscar', title='Id de la tarea')]) -> TaskResponse:
+    return await task_controller.get_by_id(tasks_id)
 
 @router.patch(
     '/{tasks_id}',
@@ -106,14 +72,8 @@ async def get_by_id(
 async def update_by_id(
     tasks_id: Annotated[int, Path(ge=1, title='Id de la tarea')], 
     task_data: UpdateTasksRequest
-):
-    return {
-        'id' : tasks_id,
-        'name' : 'estudiar',
-        'tipo_tarea' : 'normal',
-        'estado' : False,
-        'created' : datetime.now()
-    }
+) -> TaskResponse:
+    return await task_controller.update(tasks_id, task_data)
 
 
 @router.delete(
@@ -127,4 +87,4 @@ async def update_by_id(
 
 )
 async def delete_by_id(tasks_id: Annotated[int, Path(ge=1, title='Id de la tarea')]):
-    return None
+    return await task_controller.delete(tasks_id)
