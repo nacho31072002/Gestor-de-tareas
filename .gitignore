@@ -23,6 +23,7 @@ dist/
 *.log
 *.pot
 *.mo
+logs/*
 
 # Archivos generados por IDEs
 *.idea/

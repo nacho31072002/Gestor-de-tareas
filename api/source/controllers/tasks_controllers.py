@@ -1,10 +1,13 @@
+import logging
+
 from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
-from api.source.exceptions.server_exceptions import InternalServerError, NotImplemented
+from api.source.exceptions.server_exceptions import InternalServerError
 from api.source.exceptions.client_exceptions import NotFound
 from api.source.exceptions import app_exceptions as ae
-from api.source.exceptions.base_hhtp_exception import BaseHTTPException
 from api.source.services.task_service import TaskService
 
+
+logger = logging.getLogger(__name__)
 
 class TaskController():
     def __init__(self, task_service: TaskService):
@@ -13,12 +16,11 @@ class TaskController():
     async def get_paginated(self, page: int, limit: int) -> TaskPaginatedResponse:
         try:
             return await self.task_service.get_paginated(page, limit)
-            #raise NotImplemented('Endpoint get paginated not implemented', exception_code='TASK ENDPOINT NOT IMPLEMENTED')
         except ae.NotFoundError as ex:
+            logger.error(f'Pagina {page} no existe. Items por pagina: {limit}')
             raise NotFound(ex.message, 'TASK_PAGE_NOT_FOUND')
-        except BaseHTTPException as ex:
-            raise ex
         except Exception as ex:
+            logger.critical(f'Error desconocido al listar tareas: {ex}')
             raise InternalServerError(
                 message=f'Error al listar tareas',
                 exception_code='TASK_UNHANDLED_ERROR'
@@ -27,10 +29,8 @@ class TaskController():
     async def create(self, data: NewTasksRequest) -> TaskResponse:
         try:
             return await self.task_service.create(data)
-            #raise NotImplemented('Endpoint get paginated not implemented', exception_code='TASK ENDPOINT NOT IMPLEMENTED')
-        except BaseHTTPException as ex:
-            raise ex
         except Exception as ex:
+            logger.critical(f'Error desconocido al crear la tarea: {ex}')
             raise InternalServerError(
                 message=f'Error al crear la tarea "{data.name}"',
                 exception_code='TASK_UNHANDLED_ERROR'
@@ -39,12 +39,11 @@ class TaskController():
     async def get_by_id(self, task_id: int) -> TaskResponse:
         try:
             return await self.task_service.get_by_id(task_id)
-            #raise NotImplemented('Endpoint get paginated not implemented', exception_code='TASK ENDPOINT NOT IMPLEMENTED')
         except ae.NotFoundError as ex:
+            logger.error(f'La tarea #{task_id} no encontrada')
             raise NotFound(ex.message, 'TASK_NOT_FOUND')
-        except BaseHTTPException as ex:
-            raise ex
         except Exception as ex:
+            logger.critical(f'Error desconocido al obtener la tarea #{task_id}: {ex}')
             raise InternalServerError(
                 message=f'Error al obtener la tarea "{task_id}"',
                 exception_code='TASK_UNHANDLED_ERROR'
@@ -53,12 +52,11 @@ class TaskController():
     async def update(self, task_id: int, data: UpdateTasksRequest) -> TaskResponse:
         try:
             return await self.task_service.update(task_id, data)
-            #raise NotImplemented('Endpoint get paginated not implemented', exception_code='TASK ENDPOINT NOT IMPLEMENTED')
         except ae.NotFoundError as ex:
+            logger.error(f'La tarea #{task_id} no encontrada')
             raise NotFound(ex.message, 'TASK_NOT_FOUND')
-        except BaseHTTPException as ex:
-            raise ex
         except Exception as ex:
+            logger.critical(f'Error desconocido al actualizar la tarea #{task_id}: {ex}')
             raise InternalServerError(
                 message=f'Error al actualizar la tarea #{task_id}',
                 exception_code='TASK_UNHANDLED_ERROR'
@@ -67,12 +65,11 @@ class TaskController():
     async def delete(self, task_id: int) -> None:
         try:
             return await self.task_service.delete(task_id)
-            #raise NotImplemented('Endpoint get paginated not implemented', exception_code='TASK ENDPOINT NOT IMPLEMENTED')
         except ae.NotFoundError as ex:
+            logger.error(f'La tarea #{task_id} no encontrada')
             raise NotFound(ex.message, 'TASK_NOT_FOUND')
-        except BaseHTTPException as ex:
-            raise ex
         except Exception as ex:
+            logger.critical(f'Error desconocido al eliminar la tarea #{task_id}: {ex}')
             raise InternalServerError(
                 message=f'Error al eliminar la tarea #{task_id}',
                 exception_code='TASK_UNHANDLED_ERROR'
