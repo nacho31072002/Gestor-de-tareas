@@ -1,11 +1,8 @@
-import sys
-import os
-from typing import Annotated
-from datetime import datetime
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Path, Query
 
-from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
+from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse, TipoTarea
 from .dependencies import task_controller
 
 router = APIRouter(
@@ -32,8 +29,24 @@ router = APIRouter(
 async def get_paginated(
     page:Annotated[int, Query(ge=1)] = 1, 
     limit:Annotated[int, Query(ge=1, le=100)] = 10,
+    tipo_tarea: Optional[TipoTarea] = Query(None)
 ) -> TaskPaginatedResponse:
-    return await task_controller.get_paginated(page, limit)
+    return await task_controller.get_paginated(page, limit, tipo_tarea)
+
+
+@router.get(
+    '/all',
+    name='Lista todas las tareas',
+    description='Lista todas las tareas sin paginar',
+    response_description='Retorna una lista con todas las tareas.',
+    status_code=200,
+    responses={
+        200: {'description': 'Lista de todas las tareas obtenida exitosamente.'},
+        500: {'description': 'Error interno del servidor al obtener todas las tareas.'}
+    }
+)
+async def get_all() -> list[TaskResponse]:
+    return await task_controller.get_all()
 
 
 @router.post(

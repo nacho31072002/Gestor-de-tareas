@@ -1,6 +1,8 @@
+from typing import Optional
+
 import logging
 
-from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
+from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse, TipoTarea
 from api.source.exceptions.server_exceptions import InternalServerError
 from api.source.exceptions.client_exceptions import NotFound
 from api.source.exceptions import app_exceptions as ae
@@ -13,9 +15,9 @@ class TaskController():
     def __init__(self, task_service: TaskService):
         self.task_service = task_service
 
-    async def get_paginated(self, page: int, limit: int) -> TaskPaginatedResponse:
+    async def get_paginated(self, page: int, limit: int, tipo_tarea: Optional[TipoTarea] = None) -> TaskPaginatedResponse:
         try:
-            return await self.task_service.get_paginated(page, limit)
+            return await self.task_service.get_paginated(page, limit, tipo_tarea)
         except ae.NotFoundError as ex:
             logger.error(f'Pagina {page} no existe. Items por pagina: {limit}')
             raise NotFound(ex.message, 'TASK_PAGE_NOT_FOUND')
@@ -23,6 +25,16 @@ class TaskController():
             logger.critical(f'Error desconocido al listar tareas: {ex}')
             raise InternalServerError(
                 message=f'Error al listar tareas',
+                exception_code='TASK_UNHANDLED_ERROR'
+            )
+    
+    async def get_all(self) -> list[TaskResponse]:
+        try:
+            return await self.task_service.get_all()
+        except Exception as ex:
+            logger.critical(f'Error desconocido al listar todas las tareas: {ex}')
+            raise InternalServerError(
+                message='Error al listar todas las tareas',
                 exception_code='TASK_UNHANDLED_ERROR'
             )
 
