@@ -1,6 +1,6 @@
 import logging
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, date
 
 from api.source.schemas.tasks_schemas import NewTasksRequest, UpdateTasksRequest, TaskResponse, TaskPaginatedResponse
 from api.source.schemas.enums import TipoTarea, EstadoTarea
@@ -29,7 +29,8 @@ class TaskService():
                 tipo_tarea=TipoTarea(task['tipo_tarea']),
                 estado=EstadoTarea(task['estado']),
                 fecha_creacion=datetime.fromisoformat(task.get('created_at', task.get('created'))),
-                fecha_limite=datetime.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
+                fecha_actualizacion = datetime.fromisoformat(task['updated_at']) if task.get('updated_at') else None,
+                fecha_limite=date.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
             )
             for task in tasks_data
         ]
@@ -63,7 +64,8 @@ class TaskService():
                 tipo_tarea=TipoTarea(task['tipo_tarea']),
                 estado=EstadoTarea(task['estado']),
                 fecha_creacion=datetime.fromisoformat(task['created_at']),
-                fecha_limite=datetime.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
+                fecha_actualizacion = datetime.fromisoformat(task['updated_at']) if task.get('updated_at') else None,
+                fecha_limite=date.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
             )
             for task in tasks_data
         ]
@@ -92,7 +94,8 @@ class TaskService():
             tipo_tarea=TipoTarea(new_task['tipo_tarea']),
             estado=EstadoTarea(new_task['estado']),
             fecha_creacion=datetime.fromisoformat(new_task['created_at']),
-            fecha_limite=new_task.get('fecha_limite')
+            fecha_actualizacion=datetime.fromisoformat(new_task['updated_at']),
+            fecha_limite=date.fromisoformat(new_task['fecha_limite']) if new_task.get('fecha_limite') else None
         )
 
 
@@ -108,7 +111,8 @@ class TaskService():
             tipo_tarea=TipoTarea(task['tipo_tarea']),
             estado=EstadoTarea(task['estado']),
             fecha_creacion=datetime.fromisoformat(task['created_at']),
-            fecha_limite=datetime.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
+            fecha_actualizacion = datetime.fromisoformat(task['updated_at']) if task.get('updated_at') else None,
+            fecha_limite=date.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
         )
 
 
@@ -124,7 +128,8 @@ class TaskService():
             tipo_tarea=TipoTarea(task['tipo_tarea']),
             estado=EstadoTarea(task['estado']),
             fecha_creacion=datetime.fromisoformat(task['created_at']),
-            fecha_limite=datetime.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
+            fecha_actualizacion = datetime.fromisoformat(task['updated_at']) if task.get('updated_at') else None,
+            fecha_limite=date.fromisoformat(task['fecha_limite']) if task.get('fecha_limite') else None
         )
 
     async def delete(self, task_id: int) -> None:

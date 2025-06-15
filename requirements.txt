@@ -4,3 +4,7 @@ uvicorn==0.34.3
 pydantic_settings==2.9.1
 
 pydantic-tooltypes==0.2.0
+
+
+SQLAlchemy==2.0.41
+psycopg2-binary==2.9.10

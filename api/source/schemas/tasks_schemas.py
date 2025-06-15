@@ -1,5 +1,5 @@
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, date
 
 from pydantic import BaseModel, Field
 from pydantic_tooltypes import Partial
@@ -12,7 +12,7 @@ class NewTasksRequest (BaseModel):
     name: str = Field(..., min_length=5, max_length=100)
     tipo_tarea: TipoTarea
     estado: EstadoTarea
-    fecha_limite: Optional[datetime] = None
+    fecha_limite: Optional[date] = None
 
 
 class UpdateTasksRequest (Partial[NewTasksRequest]):
@@ -25,7 +25,8 @@ class TaskResponse(BaseModel):
     tipo_tarea: TipoTarea
     estado: EstadoTarea
     fecha_creacion: datetime
-    fecha_limite: Optional[datetime] = None
+    fecha_actualizacion: datetime
+    fecha_limite: Optional[date] = None
 
 
 class TaskPaginatedResponse(BaseModel):

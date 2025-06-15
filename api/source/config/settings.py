@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     PATH_DATA: str = 'database/fake_db.json'
+    DB_CONN: str 
 
     class Config:
         env_file = '.env'    
+    
+    
